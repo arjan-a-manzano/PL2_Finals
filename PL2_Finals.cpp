@@ -3,6 +3,7 @@
 #include <ctime>
 #include <thread>
 #include <chrono>
+#include <conio.h>
 
 using std::cout;
 using std::endl;
@@ -146,6 +147,8 @@ void apply_reward(Agent &agent, bool success) {
 int main() {
     srand(time(NULL));
 
+    bool found = false;
+
     int agent_who_discovered = 0;
     
 
@@ -163,8 +166,6 @@ int main() {
         clear_screen();
         cout << endl;
         draw_grid();
-
-        bool found = false;
         
         for (int i = 0; i < 5; i++) {
             evaluate_agent_policy(agents[i]);
@@ -197,12 +198,16 @@ int main() {
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
     }
 
-    for (int i = 0; i < 5; i++) {
-        cout << "Agent " << i << " (number " << i + 1 << ") final position: (" << agents[i].x_before_found + 1 << ", " << agents[i].y_before_found + 1 << ")" << endl;
+    if (found) {
+        for (int i = 0; i < 5; i++)
+        {
+            cout << "Agent " << i << " (number " << i + 1 << ") final position: (" << agents[i].x_before_found + 1 << ", " << agents[i].y_before_found + 1 << ")" << endl;
+        }
+        cout << "Friend final position: (" << friend_x + 1 << ", " << friend_y + 1 << ")" << endl;
+        cout << "Agent number who found Friend: " << agent_who_discovered << endl;
     }
-    cout << "Friend final position: (" << friend_x + 1 << ", " << friend_y + 1 << ")" << endl;
-    cout << "Agent number who found Friend: " << agent_who_discovered << endl;
 
     cout << "Simulation ended." << endl;
+    _getch();
     return 0;
 }
